@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        /*
+        
+        模板语句的数据来源：
+            Vue 对象的配置参数 data 选项
+        
+        data 配置项的名称 ： 
+            Vue 实例的数据对象
+
+        data 的类型要求：
+            Object / Function 对象或者函数
+            对象必须是纯粹的对象(含有 key/value 键值对)
+
+        data 插入模板语句
+            使用 Vue 的插值语法（胡子语法）
+
+        */
+        const vue = new Vue({
+            template : '<h1>{{name}} have {{work}}</h1>',
+            data : {
+
+                name : 'Sun',
+                work : 'Java'
+                
+            }
+        });
+        vue.$mount('#app');
+    </script>
+</body>
+</html>

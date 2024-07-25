@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Vue</title>
+    <!-- 安装 Vue -->
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        // 创建 Vue 对象
+        const vue = new Vue(
+            {
+                template : "<h1>Hello Vue | 你好，Vue</h1>"
+            }
+        );
+        //挂载
+        vue.$mount('#app');
+    </script>
+</body>
+</html>
