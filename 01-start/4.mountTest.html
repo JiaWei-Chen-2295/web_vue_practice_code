@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>挂载相关</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        // 除了使用 Vue 对象的 $mount 方法传入一个元素选择器之外
+        // 配置项 el 可以达到相同的效果
+        new Vue({
+            template : '<h1>emmm</h1>',
+            //el : '#app'
+            //还可以使用操作 DOM
+            el : document.getElementById('app')
+        });
+    </script>
+</body>
+</html>

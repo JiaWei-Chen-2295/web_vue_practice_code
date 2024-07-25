@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>template 认识</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <!-- 这里无论有什么元素 使用 Vue 模板语句后将会被覆盖 -->
+         <h1>你看不到我</h1>
+    </div>
+    <script>
+        /*
+        关于 template 配置项：
+                
+            1. template 的值是模板语句
+            2. 模板语句只能含有一个根节点
+            3. 使用这个配置项将会导致被挂载的元素内容覆盖
+            4. 如果不使用这个配置项的话，挂载的HTML标签将不会被覆盖
+        */
+        const vue1 = new Vue(
+            {
+                // 下面这个模板语句拥有两个根节点
+                // 这是不被框架支持的 会报错
+                // template : '<h1>大标题</h1><h2>二标题</h2>'
+                // 下方的模板语句拥有一个根节点
+                template : '<div><h1>大标题</h1><h2>二标题</h2></div>'
+            }
+        );
+
+        vue1.$mount('#app1');
+    </script>
+    <div id="app2">
+        <!-- 这里没有使用模板语句 元素将会被保留 -->
+        <!-- 这里仍然可以使用 Vue 的语法 -->
+        <h1>Welcome here！</h1>
+        <h2>My name is {{name}}</h2>
+    </div>
+    <script>
+        const vue2 = new Vue({
+            // 没有模板语句
+            data : {
+                name : 'JavierChen'
+            }
+        });
+        vue2.$mount('#app2');
+    </script>
+</body>
+</html>
