@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>容器与vue实例的关系</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 创建容器 -->
+    <div id="app">
+        <h1>name is {{name}}</h1>
+    </div>
+    <script>
+        // 当一个容器被两个 Vue 对象挂载
+        // 容器只会被第一个对象所影响
+        // 同理，当一个对象挂载了两个容器
+        // 只有第一个容器被影响
+        new Vue({
+            data : {name : 'Vue'},
+            el : '#app'
+        });
+
+        new Vue({
+            data : {name : 'Vue.js'},
+            el : '#app'
+        });
+    </script>
+</body>
+</html>

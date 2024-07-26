@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指令语法</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    指令语法：
+        1. 什么是指令？指令作用？
+        2. Vue 指令都是 v- 开头的
+        3. 插值是写在 {{}} 中的，指令是写在 元素的属性中
+        4. 指令的语法规则：
+            完整的语法格式：
+            <HTML标签 v-指令名:参数 = "表达式"></HTML标签>
+            - 参数不是必须的
+            - 表达式也不是必须的
+            - 是否写参数和表达式需要看指令
+            - 表达式可以写插值语法 {{}} 中的内容(不包含括号)
+-->
+<body>
+    <div id="app">
+
+    </div>
+    <script>
+        new Vue({
+            el : '#app',
+
+        });
+    </script>
+</body>
+</html>

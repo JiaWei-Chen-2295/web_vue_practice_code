@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中文Bug</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">我叫{{name}}</div>
+    <script>
+        // dev 工具当 data 出现纯中文会出现 bug 
+        // 无法定位 app
+        // 在中文面前加上 数字 或者 字母即可解决问题
+        const vue = new Vue({
+            data : {
+                name : '1陈佳玮',
+                age : '19'
+            },
+            el : '#app'
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>插值语句</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    插值语句中可以写什么？
+        1. 在 data 中声明的函数、对象等
+        2. 常量
+        3. 合法的 JS 表达式
+        4. 放在沙盒中的模板表达式，只能访问全局变量的一个白名单
+            
+            白名单：
+            'Infinity,undefined,NaN,isFinite,isNaN,' 
+            'parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,' 
+            'Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,' 
+            'require'
+-->
+<body>
+    <div id="app">
+        <!-- 对象和函数 -->
+        <h1>name is {{User.name}}</h1>
+        <h2>{{Function1()}}</h2>
+
+        <!-- 常量 -->
+        <p>{{true}}</p>
+        <p>{{3.1415926}}</p>
+        <p>{{5525}}</p>
+
+        <!-- JS 表达式 -->
+        <p>{{2 + 2}}</p>
+        <p>{{2.0 + 1.0}}</p>结果是 <!-- 3 -->
+        <p>{{2.11 + 53.14}}</p>
+        <p>{{'我' + '爱你' + 520}}</p>
+        <!-- 三目运算符也可以哦 -->
+        <p>{{ isRight ? '对对对' : '错错错' }}</p>
+        <!-- 将字符串反转 -->
+        <p>{{User.name.split('').reverse().join('')}}</p>
+
+        <!-- 在白名单中的全局变量 -->
+        <p>{{parseFloat(str)}}</p>
+        <!-- parseFloat() 函数是一个全局变量，会提取出字符串的第一个浮点数
+            字符串要求第一个字符是数字，否则会 返回 NaN 
+        -->
+        <p>{{parseInt(str)}}</p>
+        <!-- 会将函数的第一个数字提取出来转换成 Int 整数型 -->
+        <p>{{Date.now()}}</p>
+    </div>
+    <script>
+        new Vue({
+            el : '#app',
+            data :{ 
+                User : {name : 'Vuuuuuuuuuuue'},
+                
+                Function1(){
+                    console.log('Hello');
+                },
+
+                isRight : true,
+
+                str : '2.1114 km，我才 19岁'
+            }
+        });
+    </script>
+</body>
+</html>
