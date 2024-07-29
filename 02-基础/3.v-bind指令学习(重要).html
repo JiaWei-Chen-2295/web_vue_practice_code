@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重要的 v-bind 指令</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        [marked = true] {
+            color : red;
+        }
+        [marked = false] {
+            color : green;
+        }
+    </style>
+</head>
+<!-- 
+    详解 v-bind 指令
+
+    1. 作用: 
+        负责动态绑定的指令
+        可以让HTML标签的属性值变成动态的    
+    2. 语法格式
+        <HTML标签 v-bind:参数 = "表达式"></HTML标签>
+    3. 编译后效果:
+        <HTML标签 参数 = "表达式的执行结果"></HTML标签>
+    4. 注意：
+        - 在编译的时候参数名会成为HTML标签中的属性名
+        - 表达式会关联 data data发生变化 表达式的执行结果也会发生变化
+    5. 因为常用，所以 Vue 提供了一个简化的指令(简写)
+        <HTML标签 :参数 = '表达式'></HTML标签>
+        相当于省略了指令名
+    6. 什么时候使用指令语法？插值语法呢？
+    曾经的表达式支持插值语法的，但是后面 Vue 限制了,所以表达式内不允许使用插值语法
+       凡是标签体当中的内容需要动态数据 需要使用插值语法
+       想让标签的属性动态 需要使用指令语法
+
+    
+-->
+<body>
+    <div id="app">
+        
+        <p v-bind:marked = "is">REEEED</p>
+        <p v-bind:marked = "isNot">GREEEEEEN</p>
+
+        <!-- 简略代码  -->
+        <p :marked="is">RED</p>
+        <p :marked="isNot">GREEN</p>
+
+        <!-- 动态超链接 -->
+        <a href="http://www.bilibili.com">链接1</a>
+        <a :herf="url">链接2</a>
+    </div>
+    <script>
+
+        new Vue({
+            el : '#app',
+            data : {
+                msg : "hhhhhee",
+                isNot : "false",
+                is : "true",
+                url : "http://www.baidu.com"
+            }
+        });
+    </script>
+</body>
+</html>

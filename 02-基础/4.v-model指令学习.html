@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    v-bind 与 v-model 的区别和联系：
+        1. 这两个指令均可完成数据把那个绑定
+        2. v-bind 是单向数据绑定 （data 会影响视图 但容器不会影响 data）
+        3. v-model 是双向数据绑定（data 会影响视图 容器会影响 data）
+        4. v-bind 可以用于各种元素属性
+        5. v-model 只能使用在表单元素属性，通常用在 value 属性上
+            因为表单类元素才能让用户修改数据
+        6. v-model 简写
+            <HTML标签 v-model='表达式'></HTML元素>
+-->
+<body>
+    <div id="app">
+        <input type="text" :value="name1">
+        <!-- 当这个值改变时 data 也会跟着变 -->
+        <input type="text" v-model:value="name2">
+    </div>
+    <script>
+        new Vue({
+            el : '#app',
+            data : {
+                name1 : "JC",
+                name2 : "JCCCCC"
+
+            }
+        });
+    </script>
+</body>
+</html>
