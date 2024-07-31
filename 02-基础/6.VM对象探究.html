@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VM 模型进一步</title>
+    <script src='../js/vue.js'></script>
+</head>
+<!-- 
+    1. VM 模型对象提供了什么方法？可以访问哪些属性？
+        Vue 的属性分类：
+            $ 开头的 公开的属性 程序员使用的
+            _ 开头的 框架内部使用 不推荐程序员使用
+        
+        Vue 原型对象的属性:
+            vm.$delete
+-->
+<body>
+    <div id="app">
+        <h1>
+            {{name}} AND {{myObj.name}}
+        </h1>
+
+    </div>
+    <script>
+        // 
+        const myObj = {
+            name : "MAYDAY"
+        }
+
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                name : "JavierChen",
+                myObj
+            }
+        });
+
+        // 为什么这个对象不是在 Vue 的 data 中定义的
+        // 却可以在 Vue 中访问
+        // Vue 使用了数据代理机制
+        // 数据代理机制的底层需要明白：
+        //      Object.defineProperty();
+        console.log('vm.myObj');
+        
+        
+    </script>
+</body>
+</html>

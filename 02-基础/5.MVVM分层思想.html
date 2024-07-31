@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVVC 分层思想</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    1. MVVM 是什么？
+        
+        M  model 模型
+        V  view  视图
+        VM viewmodel 视图模型 [核心]
+
+        它是一个架构模式(非常流行的前端开发思想)
+
+    2. Vue 框架基本符合 MVVM 思想的
+
+    3. MVVM 模型 model view 分离的好处？
+        当数据发生改变时，不用写大量的 js 的 DOM元素 操作
+        都交给了 VM 视图模型
+        提高代码效率
+
+    -->
+<body>
+    <img src="./res/image.png">
+    <div id="app">
+        <input type="text" v-model="title">
+    </div>
+    <script>
+        // ViewModel 模型核心
+        const vm = new Vue({
+            el : '#app',
+            // M model
+            data : {
+                title : "AAA我是内容"
+            }
+        });
+        
+    </script>
+</body>
+</html>
