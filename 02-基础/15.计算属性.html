@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .body {
+            background-color: #010101;
+            
+
+        }
+        .resultBox{
+            width: 50%;
+            height: 200px;
+            background-color: #093a89;
+            margin-top: 20px;
+            padding: 10px 0px 10px 10px;
+            text-align: center;
+            color: aliceblue;
+            box-shadow: 0px 0px 5px #000000;
+            border-radius: 5px;
+            font-size: 20px;
+            line-height: 50px;
+            font-family: 'Microsoft YaHei';
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.5s;
+            box-sizing: border-box;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+
+        }
+
+        .info_input{
+            width: 50%;
+            height: 30px;
+            margin-top: 20px;
+            padding: 5px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Microsoft YaHei';
+            font-weight: bold;
+            box-sizing: border-box;
+        }
+
+        #app{
+            width: 80%;
+            height: 100%;
+            margin: 0 auto;
+            margin-top: 50px;
+            box-shadow: 0px 0px 5px #000000;
+            border-radius: 5px;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            overflow: hidden;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #000000;
+            align-items: center;
+            display: flex;
+        }
+    </style>
+</head>
+<!-- 
+    计算属性：
+    1. 计算属性的语法：
+        computed : {
+            computedName : function(){
+                return '计算属性的值'
+            }
+        }
+    2. 计算属性的取值：
+        1）通过计算属性名，获取计算属性的值
+        2）通过计算属性名，修改计算属性的值
+    3. 计算属性的取值方式：
+        1）通过计算属性名，获取计算属性的值
+    4. 定义
+        计算属性的值，是依赖于data中的数据，但是计算属性的值，是动态的，并且计算属性的值，是只读的。
+        vue 的原有属性: data 中的数据
+        生成的属性是全新的，与原有属性无关
+-->
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        输入一个字符串 <br><input type="text" v-model="info" class="info_input"> <br>
+        <!-- <p>{{computedInfo()}}</p> -->
+        <div class="resultBox">
+            <p>反转后 => {{Info}}</p>
+        </div>
+
+    </div>
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                msg : '计算属性-反转字符串',
+                info : ''
+            },
+            // 计算属性
+            computed : {
+                // 可以定义多个计算属性
+                Info : {
+                    get() {
+                        //console.log(this === vm); //true
+                        return this.info.split('').reverse().join('');
+                    },
+                    set() {
+ 
+                    }
+                }
+            } 
+        });
+    </script>
+</body>
+</html>

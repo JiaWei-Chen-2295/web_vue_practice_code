@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 是代理对象</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    数据代理机制：
+
+    1. 概念
+        通过 代理对象 的属性间接访问 目标对象 的属性
+        这个机制需要使用 Object.defineProperty() 方法
+    2. Vue 对象就是一个 proxy 代理对象
+    3. ES6 中 对象中的方法(函数) `:function` 是可以省略的
+    4. Vue 不会给 $ 和 _ 开头的属性做代理
+        原因： 防止与 Vue 对象的属性名冲突
+    Vue 有很多 $ _ 开头的属性名 保证开发者不会使用这个属性名
+-->
+<body>
+    <div id="app">
+        <h1>{{name}}</h1></div>
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                name : "Hello Vue"
+            }
+        });
+    </script>
+<script>
+    // data 属性的对象
+    let target = {
+        vocal : "阿信"
+    }
+
+    // Vue 对象就是一个代理对象
+    let proxy = {}
+
+    // 代理属性新增的名字与目标一致
+    Object.defineProperty(proxy, 'vocal',{
+        // 间接访问目标对象
+        // get : function(){
+        get(){
+            return target.vocal
+        },
+
+        // set : function(value){
+        set(value){
+            target.vocal = value
+        }
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!--  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 的 data 属性可以是 函数</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{name}}</h1>
+
+        </div>
+    <script>
+        new Vue({
+            el : '#app',
+            data : function(){
+                return {
+                    name : "JC"
+                }
+            }
+        });
+    </script>
+</body>
+</html>

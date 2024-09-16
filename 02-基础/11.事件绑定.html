@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件绑定</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    事件绑定(处理)
+    1.指令语法格式
+      <标签 v-指令名:参数名="表达式"></标签>
+      <标签 @事件名="事件处理函数"></标签>
+	  
+    2.事件绑定的指令
+      v-on:事件名="事件处理函数"
+	  e.g:
+		v-on:click="sayHello()"
+		简写形式：
+		@click="sayHello"
+	  
+	3.在 Vue 中，所有事件所关联的函数，都应该在 Vue 实例的 methods 中进行定义
+	  methods 是一个对象
+	
+	4.绑定的函数没有参数时括号可以省略
+	
+	5.Vue 在调用回调函数时 没有使用小括号，会自动传一个 当前发生的 事件对象 给这个回调函数
+	
+	6.在绑定回调函数的时候，可以在回调函数的参数上使用 $event 占位符，框架、
+	看见这个占位符之后，会自动将当前事件以对象的形式传过去
+    
+   -->
+
+   <div id="app">
+    <h1>{{ msg }}</h1>
+<!-- 	<button v-on:click="sayHello()">点我啊</button> -->
+	<button @click="sayHello()">点我啊</button>
+	<!-- 绑定的函数没有参数时括号可以省略 -->
+	<button @click="sayHello">点我啊</button>
+	<!-- 此时，框架会自动传一个当前事件对象 -->
+	<button @click="logObj1">事件对象查看</button>
+	<!-- 通过 $event 占位符传递当前事件对象 -->
+	<button @click="logObj2(1, $event)">事件对象查看2</button>
+   </div>
+
+   <script>
+    const vm = new Vue({
+      el: '#app',
+	  
+      data: {
+        msg: 'Hello Vue'
+      },
+	  
+	  methods: {
+		// 对象中定义方法
+		// sayHello : function() {
+		// 	console.log("HelloWorld");
+		// 	alert("Hello");
+		// 	}	
+			sayHello(){
+				console.log("HelloWorld");
+				alert("Hello???");
+			},
+			logObj1(e) {
+				console.log(e);
+			},
+			logObj2(num, e) {
+				console.log(num, e);
+			}
+		}
+    })
+   </script>
+</body>
+</html>

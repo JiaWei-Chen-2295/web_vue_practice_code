@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>按键修饰符</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    1.按键修饰符：
+    .enter ： 监听键盘的enter键，等同于 keyCode === 13
+    .space ：监听键盘的空格键，等同于 keyCode === 32
+    .tab ：监听键盘的tab键，等同于 keyCode === 9
+    .delete ：监听键盘的删除键，等同于 keyCode === 46
+    .esc ：监听键盘的esc键，等同于 keyCode === 27
+    .left .right .up .down ：监听键盘的上下左右键，等同于 event.keyCode === 37 ~ 40
+    .exact ：精确匹配修饰符，只有同时按下了所有的修饰符，才执行对应的程序。
+
+    2.将键值的真实名字转换为 kebab-case 格式。 
+        pageUp 键值是 page-up。
+    
+    3.Vue 中按键修饰符可以自定义 
+        Vue.config.keyCodes.修饰符 = 键值
+    
+    4.4个特殊的键
+
+    ctrl shift alt meta(Windows 是田字格键)
+    对于 keydown 事件，ctrl 按键按下就触发
+    对于 keyup 事件，ctrl 按键 组合其他键 且 释放 才触发
+
+-->
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        <input type="text" @keyup="test">1 <br>
+        <!-- 推荐使用 .enter -->
+        <input type="text" @keyup.enter="test2">2 <br>
+        <input type="text" @keyup.13="test2">3 <br>
+
+        <!-- tab 键无法触发 keyup 事件 只能触发 keydown 事件 -->
+        <input type="text" @keydown.tab="test2">
+
+        <!-- ctrl + i 触发弹窗 -->
+        <input type="text" @keyup.ctrl.i="test3">4 <br></br></input>
+
+    </div>
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                msg : '按键修饰符'   
+            },
+
+            methods : {
+                test(event) {
+                    console.log(1)
+                    // 键盘按下 enter 后获取键值
+                    if(event.keyCode === 13){
+                        console.log(event.target.value)
+                    }
+                },
+
+                test2(event) {
+                    console.log(event.target.value)
+                },
+
+                test3(event) {
+                    alert(event.target.value)
+                }
+            }
+        });
+    </script>
+</body>
+</html>

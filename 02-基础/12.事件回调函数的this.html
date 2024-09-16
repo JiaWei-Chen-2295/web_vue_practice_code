@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>事件绑定函数的 this 指向问题</title>
+		<script src="../js/vue.js"></script>
+	</head>
+
+
+	<!-- 
+	 
+		使用 this 实现一个计数器
+
+		1. methods 中的方法可以通过 vue 实例对象访问
+	 	2. methods 中的方法中没有被 vue 数据代理
+	 -->
+	<body>
+		<div id="app">
+			<h1>{{ msg }}</h1>
+			<h2><button type="reset ">计数器 ： {{counter}}</button></h2>
+			<button @click="counter++">+1</button>
+			<button @click="test1">+1+1</button>
+			<button @click="test2">+1...</button>
+			
+		</div>
+		<script>
+			const vm = new Vue({
+				el: "#app",
+				
+				data: {
+					msg : "关于事件回调函数的this",
+					counter : 0
+				},
+				
+				methods : {
+					test1() {
+					// add 功能
+					// 这里的 this === vue 实例对象 vm
+					this.counter++;
+					vm.counter++;
+					},
+					
+					test2:()=>{
+						// 箭头函数没有 this
+						// 箭头函数的 this 是从父作用域当中继承过来的
+						// this.counter++;
+						vm.counter++;
+					}
+				
+				}
+			});
+		</script>
+	</body>
+</html>

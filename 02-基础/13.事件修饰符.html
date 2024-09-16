@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件修饰符</title>
+    <script src="../js/vue.js"></script>
+
+    <style>
+        .boxs{
+            width : 300px;
+            height : 300px;
+            background-color: aquamarine;
+            overflow : auto;
+        }
+        .box{
+            width : 100px;
+            height : 100px;
+            background-color: aqua;
+        }
+    </style>
+</head>
+<!-- 
+
+    1. Vue 提供的事件修饰符：
+    .stop** ： 停止事件冒泡，等同于 event.stopPropagation()。
+    .prevent** ： 等同于 event.preventDefault() 阻止事件的默认行为。
+    .capture ：添加事件监听器时使用事件捕获模式
+                添加事件监听器包括两种不同的方式：
+                    一种是从内到外添加。（事件冒泡模式）
+                    一种是从外到内添加。（事件捕获模式）
+    .self ：这个事件如果是“我自己元素”上发生的事件，这个事件不是别人给我传递过来的事件，则执行对应的程序。
+    .once** ： 事件只发生一次
+    .passive（移动端常用） ：passive翻译为顺从/不抵抗。无需等待，直接继续（立即）执行事件的默认行为。
+                .passive 和 .prevent 修饰符是对立的。不可以共存。（如果一起用，就会报错。）
+                .prevent：阻止事件的默认行为。
+
+    
+    2. 在 Vue 当中，事件修饰符是可以多个联合使用的。
+    但是需要注意：
+        @click.self.stop：先.self，再.stop
+        @click.stop.self：先.stop，再.self
+
+-->
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- <a href="https://www.javierchen.fun" @click="test1">JC</a> -->
+        <!-- 除了在回调函数中手动阻止当前事件的默认行为，还可以使用框架提供好的事件修饰符 -->
+        <a href="https://www.javierchen.fun" @click.prevent="test1">JCCCCCCCCCCCCCCC</a>
+
+        
+        <!-- 添加事件监听器包括两种不同的方式 -->
+
+        <!-- 第一种 -->
+        <!-- 依次 2， 3， 4弹窗 -->
+        <div @click="test4">
+            <div @click="test3">
+                <button @click="test2">点我啊1</button>
+            </div>
+        </div>
+        <!-- 阻止事件冒泡 -->
+        <!-- 2之后就没有了 -->
+        <div @click="test4">
+            <div @click="test3">
+                <button @click.stop="test2">点我啊2</button>
+            </div>
+        </div>
+
+        <!-- 第二种 -->
+        <!-- 事件捕获 -->
+        <!-- 弹窗顺序 4 3 2 -->
+        <div @click.capture="test4">
+            <div @click.capture="test3">
+                <button @click.capture="test2">点我啊3</button>
+            </div>
+        </div>
+
+        <!-- 仅被 capture 修饰的元素使用事件捕获，其他及其子元素默认使用事件冒泡。
+          -->
+        <!-- 弹窗顺序 4 2 3 -->
+          <div @click.capture="test4">
+            <div @click="test3">
+                <button @click="test2">点我啊4</button>
+            </div>
+        </div>
+        
+
+
+        <!-- self 修饰符 -->
+        <!-- 达到一定的阻止事件冒泡的效果
+           2，4弹窗 -->
+        <!-- 2 是自己调用的，但是 3不是，所以不会触发回调函数 -->
+        <div @click="test4">
+            <div @click.self="test3">
+                <button @click.self="test2">点我啊5</button>
+            </div>
+        </div>
+
+        <!-- once 事件只发生一次
+          -->
+        <button @click.once="test2">点我6</button>
+
+        <!-- passive 修饰符使用场景 -->
+        <!-- 当不加 .passive 修饰符时，回调函数的默认行为运行时间过长，导致页面卡顿。 -->
+        <!-- 加上 .passive 修饰符，不会出现卡顿。 -->
+        <div class="boxs" @wheel.passive="wheelfun">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+            <div class="box">4</div>
+            <div class="box">5</div>
+        </div>
+    </div>
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                msg : "事件修饰符" 
+            },
+            methods :{
+                test1(event) {
+                    alert("HAHAAHa")
+                    // 操作 DOM 阻止操作
+                    // event.preventDefault();
+                },
+
+                test2(event) {
+                    alert("2")
+                },
+
+                test3(event) {
+                    alert("3")
+                },
+
+                test4(event) {
+                    alert("4")
+                },
+
+                wheelfun(event){
+                    for(let i = 0; i < 100000; i++){
+                        console.log('test passive')
+                    }
+                    // 阻止事件的默认行为
+                    //event.preventDefault()
+                }
+            }
+        });
+    </script>
+</body>
+</html>
