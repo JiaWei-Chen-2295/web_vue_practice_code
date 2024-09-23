@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>侦听属性的变化</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+
+        <h2>
+            数字1  <input type="text" v-model="num">
+        </h2>
+
+        <h2>
+            数字1 = {{ num }}
+            <br>
+            数字1 * 2 = {{ Num }} 
+        </h2>
+
+        <br>
+        
+        <h2>
+            对象1  <input type="text" v-model="a.b">
+        </h2>
+        
+        <h2>
+            数字2  <input type="text" v-model="num2">
+        </h2>
+
+        <h2>
+            数字3  <input type="text" v-model="c.d">
+        </h2>
+
+    </div>
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                msg : '侦听属性的变化',
+                num : 0,
+                a : {
+                    b : 1
+                },
+                c : {
+                    d : 2
+                },
+                num2 : 0
+            },
+            computed : {
+
+                Num() {
+                    return this.num * 2;
+                }
+            },
+            watch : {
+                // 监视哪个属性就把哪个属性写上
+                // 可以侦听计算属性
+                // 也可以监视 Vue 原有属性
+                
+                num : {
+                    // 默认是 false
+                    // 如果设置为 true，那么在页面渲染的时候，也会调用这个函数
+                    immediate : true,
+                    // 这里有个固定写法
+                    // 函数名是固定的
+                    // 被监视的属性被调用的时候，handler会被调用
+                    // 这个函数有两个参数 newVlaue, oldValue
+                    // newValue 是修改之后的值
+                    // oldValue 是修改之前的值
+                    handler(newValue, oldValue) {
+                        console.log('旧的值是' + oldValue);
+                        console.log('新的值是' + newValue);
+                    }
+                },
+
+                Num : {
+                    handler(newValue, oldValue) {
+                        console.log('旧的 n*2 值是' + oldValue);
+                        console.log('新的 n*2 值是' + newValue);
+                    }
+                },
+
+                // 如果要监听对象，那么必须使用深度监听
+                // 深度监听时 对象当中的一个属性改变时就会调用 handler
+                a : {
+                    deep : true,
+                    handler(newValue, oldValue) {
+                        console.log('旧的 a 值是' + oldValue);
+                        console.log('新的 a 值是' + newValue);
+                    }
+                },
+
+                // 如果要监听对象中的值
+                // 就要 '对象.值的名字'
+                // 监听 a.b
+                // 不要忘记使用引号('')
+                'a.b' : {
+                    handler(newValue, oldValue) {
+                        console.log('旧的 a.b 值是' + oldValue);
+                        console.log('新的 a.b 值是' + newValue);
+                    }
+                },
+
+                // 当只有 handler 方法时，可以简写
+                'c.d'(newValue, oldValue) {
+                    console.log('c.d 被修改了');
+                    console.log('旧的 c.d 值是' + oldValue);
+                    console.log('新的 c.d 值是' + newValue);
+                }
+            }
+       
+        });
+
+
+        // 后期添加监视,简写
+        vm.$watch('num2', function(newValue, oldValue) {
+            console.log('旧的2值是' + oldValue);
+            console.log('新的2值是' + newValue);
+        });
+    </script>
+</body>
+</html>

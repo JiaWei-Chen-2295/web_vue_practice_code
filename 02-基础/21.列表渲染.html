@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表渲染</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    1. v-for 写在元素上
+    2. v-for 用法
+        2.1 v-for="变量名 in/of 数据源(数组, 字符串, 对象属性, 指定的次数)"
+        
+            <ul>
+            <li v-for="name in list">{{ name.name }}</li>
+            </ul>
+            
+        变量名代表了数组中的每一个元素
+        
+        2.2 v-for 除了变量名之外还可以加一个参数 就是当前遍历的索引
+        
+            <ul v-for="(item, index) in list">
+            <li>{{index}} {{item.name}}</li>
+            </ul>
+        
+        2.3 v-for 还有一个重要的参数 :key(涉及Vue的虚拟DOM和diff算法)
+            - key 是一个特殊的属性，
+            - 不指定 :key 默认以 index 索引作为 key
+                - 默认行为有什么问题？
+                    效率低         增加元素的时候要多次渲染
+                    会发生数据错乱  尤其是对数组当中的删除和修改
+                    
+                - 建议是 使用对象的 id 作为 key
+
+-->
+<body>
+   <div id="app">
+      <p>{{msg}}</p>
+      
+      <button @click="add()"> 点我加个人</button>
+      
+      <form @click.prevent="addItem(name)">
+        添加元素<input type="text" v-model="name">
+        <button>+</button>
+      </form>
+      
+      <ul>
+        <li v-for="name in list">{{ name.name }}</li>
+      </ul>
+
+      <!-- v-for 除了变量名之外还可以加一个参数 就是当前遍历的索引
+        -->
+      <br><br>
+      <ul v-for="(item, index) in list">
+        <li>{{index}} {{item.name}}</li>
+      </ul>
+
+      <!-- 遍历指定次数 -->
+      <ul>
+        <li v-for="(num, index) of count">
+            {{ index  }} ： {{ num }}
+        </li>
+      </ul>
+
+
+   </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg : '列表渲染 v-for',
+                list: [
+                    {name: '张三', age: 18},
+                    {name: '李四', age: 19},
+                    {name: '王五', age: 20},
+                ],
+                name : "",
+                count : 5
+            },
+            methods: {
+                add: function() {
+                    this.list.push({name: '赵六', age: 21})
+                },
+                addItem(name) {
+                    if (name === "") return;
+                    for (const item of this.list) {
+                        if (item.name === name) {
+                            return; // 名字重复，退出函数
+                        }
+                    }
+                    this.list.push({name: name, age: 22})
+                }
+            }
+        })
+    </script>
+</body>
+</html>

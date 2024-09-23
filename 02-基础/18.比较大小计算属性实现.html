@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>比较大小watch实现</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        #result{
+            color : white;
+            background-color : rgb(4, 143, 235);
+            padding : 10px;
+            margin-top : 20px;
+            width : 300px;
+            text-align : center;
+            border-radius : 10px;
+            box-shadow : 0px 0px 10px #000;
+            font-size : 20px;
+            line-height : 30px;
+        }
+
+        input {
+            width : 100px;
+            height : 30px;
+            font-size : 20px;
+            border-radius : 5px;
+            border : 1px solid #000;
+            padding : 5px;
+            outline : none;
+            text-align : center;
+            box-shadow : 0px 0px 5px #000;
+            margin-bottom : 10px;
+            margin-right : 10px;
+        }
+    </style>
+</head>
+<!-- 
+    watch实现和计算属性实现怎么选择？
+    1. 计算属性(computed)实现 和 watch实现 都可以完成需求，优先选计算属性(computed)
+    2. 有异步需求的(e.g:setTimeout)，只能使用 watch 实现
+    3. watch实现，可以监听多个数据，计算属性只能监听一个数据
+-->
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        <h2>
+            数字1       <input type="number" v-model="num1"></input>
+            <br><br>
+            数字2       <input type="number" v-model="num2"></input>
+            </br>
+            <div id="result">
+                num1 [ {{ Relation }} ] num2
+            </div>
+           
+        </h2>
+    </div>
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                msg : "比较大小计算属性实现",
+                num1 : 0,
+                num2 : 0,
+                relation : ''
+            },
+            computed : {
+                Relation (){
+                    if(this.num1 > this.num2){
+                        return '>';
+                    }else if(this.num1 < this.num2){
+                        return '<';
+                    }else{
+                        return '=';
+                    }
+                }
+            }
+        });
+    </script>
+    
+</body>
+</html>

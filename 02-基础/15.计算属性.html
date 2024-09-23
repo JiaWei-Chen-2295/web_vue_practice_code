@@ -6,11 +6,6 @@
     <title>计算属性</title>
     <script src="../js/vue.js"></script>
     <style>
-        .body {
-            background-color: #010101;
-            
-
-        }
         .resultBox{
             width: 50%;
             height: 200px;
@@ -28,15 +23,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            cursor: pointer;
+            cursor: text;
             transition: all 0.5s;
             box-sizing: border-box;
             position: relative;
             user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-
         }
 
         .info_input{
@@ -52,26 +43,6 @@
             box-sizing: border-box;
         }
 
-        #app{
-            width: 80%;
-            height: 100%;
-            margin: 0 auto;
-            margin-top: 50px;
-            box-shadow: 0px 0px 5px #000000;
-            border-radius: 5px;
-            padding: 10px;
-            box-sizing: border-box;
-            background-color: #ffffff;
-            overflow: hidden;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #000000;
-            align-items: center;
-            display: flex;
-        }
     </style>
 </head>
 <!-- 
@@ -96,10 +67,21 @@
     <div id="app">
         <h1>{{ msg }}</h1>
         输入一个字符串 <br><input type="text" v-model="info" class="info_input"> <br>
-        <!-- <p>{{computedInfo()}}</p> -->
+        <br>
+        输入一个字符串 <br><input type="text" v-model="info" class="info_input"> <br>
+        <!-- 计算属性是有缓存的，以下使用了三次，只需要计算一次 -->
         <div class="resultBox">
             <p>反转后 => {{Info}}</p>
         </div>
+
+        <div class="resultBox">
+            <p>反转后 => {{Info}}</p>
+        </div>
+
+        <div class="resultBox">
+            <p>反转后 => {{Info}}</p>
+        </div>
+        
 
     </div>
     <script>
@@ -107,20 +89,44 @@
             el : '#app',
             data : {
                 msg : '计算属性-反转字符串',
-                info : ''
+                info : '',
+                countGet : 0,
+                countSet : 0
             },
             // 计算属性
             computed : {
+
+
                 // 可以定义多个计算属性
-                Info : {
-                    get() {
-                        //console.log(this === vm); //true
-                        return this.info.split('').reverse().join('');
-                    },
-                    set() {
- 
-                    }
+                // Info : {
+                //     get() {
+                //         //console.log(this === vm); //true
+                //         // 调用时机
+                //         // 1）页面渲染的时候，计算属性的get方法会被调用
+                //         // 2）修改计算属性的值，计算属性的get方法会被调用
+                //         this.countGet ++;
+                //         console.log("调用了 info 值的 get() 方法" + this.countGet + "次");
+                //         return this.info.split('').reverse().join('');
+                //     },
+                //     // 下面很少用 ，看看得了
+                //     set(value) {
+                //         this.countSet ++;
+                //         console.log("调用了 info 值的 set() 方法" + this.countSet + "次");
+
+                //         this.info = value.split('').reverse().join('');;
+                //     }
+                // }
+
+
+                // set 不需要可以精简
+                // 这个不是一个方法
+                // 只是一个修改属性
+                // 使用属性的时候不需要加括号
+                Info() {
+                    return this.info.split('').reverse().join('');
                 }
+
+
             } 
         });
     </script>

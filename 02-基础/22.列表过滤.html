@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表过滤</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        table{
+            width: 300px;
+            border: 1px solid #000;
+        }
+        th{
+            background-color: #ccc;
+        }
+        .isNeeded{
+            color: rgb(0, 106, 255);
+        }
+        .normal{
+            color: #000;
+        }
+    </style>
+</head>
+<!-- 
+    1. 使用v-for时，不指定 :key 属性时，默认使用 index ，会导致数据错乱和不必要的渲染
+       使用对象自身的 id 作为 key，就规避了以上的缺点
+    2. 通过列表过滤实现数据搜索
+-->
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        <h2>
+            <!-- 使用v-for时，不指定 :key 属性时，默认使用 index ，会导致数据错乱和不必要的渲染 -->
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>名字</th>
+                    <th>年龄</th>
+                    <th>选择</th>
+                </tr>
+                <tr v-for="item in list">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.age }}</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+            </table>
+            <button @click="doAdd1">在后面加一个</button>
+            <button @click="doAdd2">在前面加一个</button>
+        </h2>
+
+        <br><br>
+        
+        <h2>
+            <!-- 使用对象自身的 id 作为 key，就规避了以上的缺点 -->
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>名字</th>
+                    <th>年龄</th>
+                    <th>选择</th>
+                </tr>
+                <tr v-for="item in list2" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.age }}</td>
+                    <td><input type="checkbox" ></td>
+                </tr>
+            </table>
+            <button @click="doAdd11">在后面加一个</button>
+            <button @click="doAdd22">在前面加一个</button>
+        </h2>
+        <br><br><br>
+        <h2>
+            <input type="text" placeholder="输入要搜索的名字" v-model="search_name_text">
+            <button @click="isChecked =!isChecked">全选/取消全选</button>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>年龄</th>
+                    <th>名字</th>
+                    <th>选择</th>
+                </tr>
+                <p v-show="isNotHaveData">查无此人</p>
+                <tr v-for="(item, index) in filter_list" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.age }}</td>
+                    <td>
+                        <span v-for="(c, i) of item.name" 
+                        :class="counts[index] !== -1 && counts[index] === i ? 'isNeeded' : 'normal' " 
+                        >{{ c }}</span>
+                    </td>
+                    
+                    <td><input type="checkbox" :checked="isChecked ? '': 'undefined' "></td>
+                </tr>
+            </table>
+        </h2>
+    </div>
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                msg : '列表过滤',
+                list : [
+                    {'id':1,'name':'小刘', 'age': 12},
+                    {'id':2,'name':'小王', 'age': 23},
+                    {'id':3,'name':'小李', 'age': 39},
+                    {'id':4,'name':'小阳', 'age': 60},
+                    {'id':5,'name':'李梓阳', 'age': 22},
+                    {'id':6,'name':'小范儿', 'age': 60},
+                    {'id':7,'name':'小阳', 'age': 60},
+                    {'id':8,'name':'范宏泰', 'age': 20},
+                    {'id':9,'name':'小陈', 'age': 60},
+                    {'id':10,'name':'陈建宇', 'age': 20},
+                ],
+                list2 : [
+                    {'id':1,'name':'小刘', 'age': 12},
+                    {'id':2,'name':'小王', 'age': 23},
+                    {'id':3,'name':'小李', 'age': 39},
+                    {'id':4,'name':'小阳', 'age': 60}
+                ],
+                search_name_text : '',
+                filter_list : [],
+                isNotHaveData : false,
+                counts : [],
+                isNeeded : 'isNeeded',
+                isChecked : false
+            },
+            methods : {
+                doAdd1() {
+                    this.list.push({
+                        'id':5,
+                        'name':'小赵',
+                        'age': 18
+                    });
+                },
+                doAdd2() {
+                    this.list.unshift({
+                        'id':6,
+                        'name':'小钱',
+                        'age': 18
+                    });
+                },
+                
+                doAdd11() {
+                    this.list2.push({
+                        'id':5,
+                        'name':'小赵',
+                        'age': 18
+                    });
+                },
+                doAdd22() {
+                    this.list2.unshift({
+                        'id':6,
+                        'name':'小钱',
+                        'age': 18
+                    });
+                },
+                
+            },
+            watch : {
+                
+                search_name_text : {
+                    immediate: true,
+                    handler(value) {
+                        const temp_list = [];
+                        let i = 0;
+                        this.filter_list = this.list.filter((item) => {
+                            let count = item.name.indexOf(value);
+                            let flag = count !== -1
+                            
+                            if(flag) {
+                                temp_list[i++] = count;
+                            }
+                            
+                            return flag;
+                        });
+                        
+                        this.counts = temp_list;
+
+                        if (this.filter_list.length === 0) {
+                            this.isNotHaveData = true;
+                        } else {
+                            this.isNotHaveData = false;
+                        }               
+                    }
+                }
+
+                // search_name_text(value) {
+                //     // console.log(newValue, oldValue);
+                //     // 执行列表过滤
+                //     // console.log(value);
+                //     // list 不能动
+                //     this.filter_list = this.list.filter((item) => {
+                //         return item.name.indexOf(value) !== -1;
+                //     });
+                    
+                //     if (this.filter_list.length === 0) {
+                //         this.isNotHaveData = true;
+                //     } else {
+                //         this.isNotHaveData = false;
+                //     }
+                // }
+            }
+        });
+
+        
+        // 新知识
+        // filter
+        const array = [5525, 5, 7, 3, 9, 25, 24, 22];
+        
+        // newArray = [5525, 5, 25]
+        const newArray = array.filter((num) => {
+            return num % 5 === 0;
+        });
+        
+        console.log(array);
+        console.log(newArray);
+        
+    </script>
+</body>
+</html>
