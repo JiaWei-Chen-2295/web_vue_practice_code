@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>列表过滤</title>
+    <title>列表过滤watch实现</title>
     <script src="../js/vue.js"></script>
     <style>
         table{
@@ -25,6 +25,7 @@
     1. 使用v-for时，不指定 :key 属性时，默认使用 index ，会导致数据错乱和不必要的渲染
        使用对象自身的 id 作为 key，就规避了以上的缺点
     2. 通过列表过滤实现数据搜索
+    3. 数组的 filter 操作
 -->
 <body>
     <div id="app">
@@ -202,6 +203,7 @@
                 //     }
                 // }
             }
+
         });
 
         

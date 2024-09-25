@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!--
+    需求：
+        从服务器端返回了一个商品的价格price，这个price的值可能是这几种情况：''、null、undefined、60.5
+        要求：
+            如果是''、null、undefined ，页面上统一显示为 -
+            如果不是 ''、null、undefined，则页面上显示真实的数字即可。
+
+    1. 过滤器可以连续使用，过滤器之间使用 | 连接符。
+    2. 当使用多个过滤器时，过滤器是按照从左到右的顺序执行的。将左面的结果当作参数，将右面的结果当作返回值。
+    3. 过滤器可以接受参数，参数通过逗号隔开。
+    4. 使用管道符可看作一个语句，允许在指令标签“”中使用。
+    5. v-model 不允许使用管道符。
+
+    <em>在Vue3当中，已经将过滤器语法废弃了。</em>
+ -->
+<body>
+    <div id="app">
+      <h1>{{ msg }}</h1>
+      <h2>
+        商品价格：{{ price | priceFilter | formatPrice(3) }}
+      </h2>
+    </div>
+
+    <div id="app2">
+      <h2>商品价格：{{ price | formatPrice(3) }}</h2>
+    </div>
+
+    <script>
+      // 全局 filter 过滤器
+      Vue.filter('formatPrice', function(price, number) {
+          return price.toFixed(number);
+      })
+      const vm = new Vue({
+            el : '#app',
+            data : {
+                msg : '过滤器',
+                price : 66.6
+            },
+            filters : {
+              // 局部过滤器
+              priceFilter(price) {
+                  if(price === '' || price === undefined || price === null) return '-';
+                  return price;
+                },
+              formatPrice(price, number) {
+                  return price.toFixed(number);
+                }
+            }
+        });
+
+        const vm2 = new Vue({
+          el : '#app2',
+          data : {
+              price : 66.6
+          }
+        });
+    </script>
+</body>
+</html>

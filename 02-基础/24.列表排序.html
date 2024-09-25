@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表排序</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        table{
+            width: 300px;
+            border: 1px solid #000;
+        }
+        th{
+            background-color: #ccc;
+        }
+        .isNeeded{
+            color: rgb(0, 106, 255);
+        }
+        .normal{
+            color: #000;
+        }
+    </style>
+</head>
+<!-- 
+    1. 数组的 sort
+-->
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        
+        <h2>
+            <input type="text" placeholder="输入要搜索的名字" v-model="search_name_text">
+            <button @click="is_sort=false">原序</button>
+            <button @click="up_sort=true; is_sort=true">年龄正序</button>
+            <button @click="up_sort=false; is_sort=true">年龄倒序</button>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>年龄</th>
+                    <th>名字</th>
+                    <th>选择</th>
+                </tr>
+                <p v-show="isNotHaveData">查无此人</p>
+                <tr v-for="(item, index) in filter_list" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.age }}</td>
+                    <td>
+                        <span v-for="(c, i) of item.name" 
+                        :class="counts[index] !== -1 && counts[index] === i ? 'isNeeded' : 'normal' " 
+                        >{{ c }}</span>
+                    </td>
+                    
+                    <td><input type="checkbox"></td>
+                </tr>
+            </table>
+        </h2>
+    </div>
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                msg : '列表过滤计算属性实现',
+                list : [
+                    {'id':1,'name':'小刘', 'age': 12},
+                    {'id':2,'name':'小王', 'age': 23},
+                    {'id':3,'name':'小李', 'age': 39},
+                    {'id':4,'name':'小阳', 'age': 60},
+                    {'id':5,'name':'李梓阳', 'age': 22},
+                    {'id':6,'name':'小范儿', 'age': 60},
+                    {'id':7,'name':'小阳', 'age': 60},
+                    {'id':8,'name':'范宏泰', 'age': 20},
+                    {'id':9,'name':'小陈', 'age': 60},
+                    {'id':10,'name':'陈建宇', 'age': 20},
+                ],
+                search_name_text : '',
+                counts : [],
+                up_sort : false,
+                is_sort : false
+            },
+            computed : {
+                filter_list() {
+                    // 筛选
+                    let arr = this.list.filter((item) => {
+                        return item.name.indexOf(this.search_name_text) !== -1;
+                    });
+
+                    if(!this.is_sort) {
+                        return arr;
+                    }
+
+                    // 排序
+                    // 排序之后不会生成新的数组 在原来的数组上进行修改
+                    if(this.up_sort) {
+                        arr.sort((a, b) => {
+                            // 升序
+                            return a.age - b.age;
+                        });
+                    } else {
+                        // 降序
+                        arr.sort((a, b) => {
+                            return b.age - a.age;
+                        });
+                    }
+                    return arr;
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
