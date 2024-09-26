@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue其他指令</title>
+    <style>[v-cloak] {display: none;}</style>
+</head>
+<!--
+    1. v-text 将指令的内容拿出来填充在标签体中。功能和 JS 的 innerText 一样。
+       该功能会将原标签中的内容清空
+       内容是 HTML 代码，也不会执行
+    2. v-html 将指令的内容拿出来填充在标签体中，并且解析标签。功能和 JS 的 innerHTML 一样。
+       内容是 HTML 时，会执行
+       会导致 XSS 攻击
+    3. v-clock 在页面加载时，不会显示内容，在加载完成后，才会显示内容。
+       前提： 
+       使用 v-cloak 标签时，必须指定 CSS 样式
+      ···
+      <style>[v-cloak] {display: none;}</style>
+      ···
+    4. v-once
+       元素只渲染一次
+       如果 data 中有一个数据是我们不希望变的
+       加上后数据修改时，Vue 不会再次渲染
+    5. v-pre
+      跳过当前元素和子元素的编译过程。
+      可以用于有特殊字符的元素中，防止解析模板。
+       <p v-pre>{{ this will not be compiled }}</p>
+
+       也可以用在没有 Vue 语法的标签以加快标签渲染速度
+
+-->
+<body>
+  <div id="app">
+      <h1 v-cloak>{{ msg }} 有 v-cloak </h1>
+      <h1>{{ msg }} 无  v-cloak </h1>
+        <p v-cloak v-text="msg">test你看不到我</p>
+        <p v-html="myHtml"></p>
+      <h2>
+        <input type="text" v-model="userName">
+        <p v-once>一次渲染：{{ userName }}</p>
+        <p> 多次渲染：{{ userName }}</p>
+      </h2>
+  </div>
+  <script>
+    setTimeout(function(){
+      let scriptEle = document.createElement('script')
+      scriptEle.src = "../js/vue.js";
+      document.head.append(scriptEle);
+    }, 1*1000);
+
+    setTimeout(function(){
+      const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: 'Vue指令',
+        myHtml : '<h1>Look Me</h1>',
+        userName : '狗蛋'
+      }
+    });
+    }, 2*1000);
+    
+  </script>
+</body>
+</html>

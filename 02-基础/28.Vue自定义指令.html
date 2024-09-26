@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 自定义指令</title>
+    <script src="vue.js"></script>
+</head>
+<!-- 
+    Vue 自定义指令
+    示例：
+    新建一个属于自己的指令 v-red
+
+    做法：
+        新建 Vue 配置项 directives
+        该配置项可以定义多个指令
+
+        1. 定义时不能有 v- 前缀
+        2. 建议指令全小写
+        3. 如果涉及多个单词，使用小驼峰命名
+        4. 指令名有 ‘-’ 要加 ‘’
+
+        配置项回调函数执行时机：
+        1. 标签和指令第一次绑定
+        2. 模板被重新解析
+
+        定义指令的函数的参数：
+        1. 绑定的元素
+        2. 描述绑定关系的 的对象
+
+        在配置项中的 directives 配置项，只能用于局部
+        在全局中，需要使用 Vue.directive()
+
+        注意:
+            在定义指令的函数内，this 是 window
+
+-->
+
+<!--
+    Test:
+    将绑定的元素的父元素的背景改为蓝色
+    v-bind-blue
+-->
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        <p v-text-red="msg">{{ msg }}</p>
+
+        <h2>
+            <p>我的背景是蓝色吗？ </p>
+            <span v-bind-blue="msg">{{ msg }}</span>
+        </h2>
+
+    </div>
+
+    <div id="app2">
+        <p v-text-none="msg"></p>
+
+        <div>
+            {{ msg }}
+            <p v-parent-none="speak"></p>
+        </div>
+
+    </div>
+
+    <script>
+
+        // 全局指令
+        Vue.directive('text-none', function (element, binding) {
+            element.innerText = binding.value;
+            element.style.textDecoration = 'line-through';
+        });
+
+        Vue.directive('parent-none', {
+            bind(element, binding) {
+                element.innerText = binding.value;
+            },
+            inserted(element, binding) {
+                element.parentNode.style.textDecoration = 'line-through';
+            },
+            update(element, binding) {
+                element.innerText = binding.value;
+            },
+        });
+
+        const vm2 = new Vue({
+            el : '#app2',
+            data : {
+                msg : 'vue 自定义指令2',
+                speak : "我被划掉 我的上一个也划掉了"
+            }
+
+        });
+
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                msg : 'vue 自定义指令'
+            },
+            directives : {
+                // 指令1(函数式)
+                'text-red' : function(element, binding) {
+                    element.innerText = binding.value;
+                    element.style.color = 'red';
+                },
+                // 指令2(对象式)
+                'bind-blue' : {
+                    // 对象中的函数数量名字是确定的
+                    // 他们会在对应的时机自动调用
+                    // 这种特定时间调用的函数被称为 钩子函数
+
+                    // 元素与指令初次绑定时调用
+                    bind(element, binding) {
+                        element.value = binding.value;
+                    },
+                    // 元素被插入到页面
+                    inserted(element, binding) {
+                        element.parentNode.style.backgroundColor = 'skyblue';
+                    },
+                    // 模板重新解析
+                    update(element, binding) {
+                        element.value = binding.value;
+                    }
+
+                }
+                // 更多指令...
+            }
+        });
+    </script>
+</body>
+</html>
