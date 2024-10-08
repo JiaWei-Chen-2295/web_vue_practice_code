@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多个 Vue 组件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    Vue 组件使用步骤
+    1. 创建组件
+    Vue.extend(options 对象)
+        配置项与vue实例的区别：
+            1. 不能使用 el 配置项
+            2. 只能使用 template 配置项
+            3. data 只能使用函数进行配置 return 需要的数据(防止数据data被多个组件共享)
+        
+            可以省略，直接使用 option 对象
+
+    2. 注册组件
+    局部注册：
+        vue 实例中注册组件
+        使用 components 配置项
+    全局注册组件:
+        Vue.component('userlogin', secondComponent);
+        Vue.component('组件名字', 组件对象);
+    3. 使用组件
+        <组件名></组件名>
+
+    Vue 中是可以使用自闭和标签的，前提是在脚手架环境
+    创建组件时，Vue.extend()可以省略，只用 option 对象
+    组件名字要求：
+        1. 全部小写
+        2. 首字母大写，其他小写
+        3. 串式命名 xxx-xxx-xxx
+        4. 在脚手架的环境下使用驼峰命名
+
+        5. 不要使用 HTML 内置的标签命名
+
+        小细节： 使用组件配置项 name 不会改变组件的名字，只是修改了开发者工具的组件的名字
+-->
+
+<body>
+    <div id="app">
+        <h2>{{ msg }}</h2>
+        <userlist></userlist>
+        <login></login>
+    </div>
+
+    <div id="app2">
+        <userlogin></userlogin>
+    </div>
+
+    <script>
+        // 创建组件
+        const simpleComponent = Vue.extend({
+            template:
+                `<ul>
+                <li v-for="(user, index) of users" :key="user.id">{{ index }}.{{user.name}}</li>
+            </ul>`,
+            data() {
+                return {
+                    users: [
+                        { 'id': 1, 'name': 'ashin' },
+                        { 'id': 2, 'name': 'stone' },
+                        { 'id': 3, 'name': 'monster' },
+                        { 'id': 4, 'name': 'masa' },
+                        { 'id': 5, 'name': 'ming' }
+                    ]
+                };
+            }
+        });
+
+        // 创建第二个组件(简写)
+        const secondComponent = {
+            template: `
+                <section>
+                <h3>登录</h3>
+                <form @submit.prevent="login">
+                    账号<input type="text" v-model="username">
+                    密码<input type="password" name="user" v-model="pwd">
+                    <button>login</button>
+                </form>
+                </section>
+            `,
+            data() {
+                return {
+                    username: '',
+                    pwd: '',
+
+                }
+            },
+            methods: {
+                login() {
+                    alert("name is " + this.username)
+                    alert("password is " + this.pwd)
+                }
+            }
+        };
+
+        // 全局注册组件
+        Vue.component('userlogin', secondComponent);
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: "my first vue Component"
+            },
+            components: {
+                // userList 是组件名称
+                // simpleComponent 是变量名
+                userlist: simpleComponent,
+                login: secondComponent
+            }
+        });
+
+        const vm2 = new Vue({
+            el: '#app2',
+            data: {},
+        });
+    </script>
+</body>
+
+</html>

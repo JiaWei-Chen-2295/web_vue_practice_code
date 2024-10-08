@@ -1,10 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>数组元素的响应式</title>
+  <script src="../js/vue.js"></script>
 </head>
+<!--
+  数组的响应式处理
+  1. 数组中元素默认不会添加响应式处理
+        为元素添加响应式解决方案：
+        1. 使用数组的实例方法，如：push、pop、shift、unshift、splice、sort、reverse、splice等
+        (重要)，使用之后就可以给数组的所有元素增加响应式
+
+        2. 使用 Vue.set(数组对象, 'index', 值) vm.$set(数组对象， 'index', 值)
+
+
+-->
+
 <body>
-$END$
+  <div id="app">
+    <h1>{{ msg }}</h1>
+
+    <!--      此时，list1 中的元素默认不会添加响应式处理-->
+    <button @click="list1[1] = 'B'">修改元素</button>
+    <!--      这个有响应式-->
+    <button @click="list1.push('C')">添加元素</button>
+
+    <ul>
+      <li v-for="alpha in list1">{{ alpha }}</li>
+    </ul>
+
+    <br><br>
+
+    <ul>
+      <li v-for="obj in list2">{{obj.id}} --- {{ obj.name }}</li>
+    </ul>
+  </div>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '数组元素的响应式',
+        list1: ['M', 'A', "Y", 'D', 'A', 'Y'],
+        list2: [
+          { 'id': 5525, 'name': '阿信' },
+          { 'id': 5, 'name': '怪兽' },
+          { 'id': 55, 'name': '玛莎' },
+          { 'id': 555, 'name': '石头' },
+          { 'id': 5555, 'name': '冠佑' },
+        ]
+      }
+    });
+  </script>
 </body>
+
 </html>

@@ -3,11 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>响应式和数据劫持</title>
+    <script src="./vue.js"></script>
+    <style>[v-cloak]{display: none}</style>
 </head>
 <!--
+    1. 响应式
+    2. 数据劫持
+        数据劫持与数据绑定的区别：
+        数据
 
 -->
 <body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <h2 v-cloak>{{a.b.num}}</h2>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '响应式和数据劫持',
+                a : {
+                    b : {}
+                }
+            }
+        });
 
+        // 后期给 Vue 追加的属性不会进行响应
+        // 必须使用 Vue 提供的 set 方法进行绑定
+        // set(目标对象， 属性名， 值)
+        // 因为 Vue 已经代理了 data 中的 a.b， 所以直接访问就行
+        Vue.set(vm.a.b, 'num', 12);
+        vm.$set(vm.a.b, 'num', 255);
+        // 不能给 vm Vue示例以及 $data 根目录 直接追加响应式属性
+
+    </script>
 </body>
 </html>

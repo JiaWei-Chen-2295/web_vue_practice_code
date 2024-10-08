@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 生命周期</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    钩子函数写在 Vue 实例的 options对象中
+
+    初始阶段
+        流程正常进行的前提是 el 存在
+        产生 虚拟DOM
+    挂载阶段
+        虚拟 DOM 变成 真实 DOM 渲染在页面上
+    更新阶段
+        前提： data 改变
+        循环
+    销毁阶段
+        前提：手动调用 vm.$destory()
+        这里的销毁是指 将Vue实例绑定的东西全部解绑(监视器，子组件，事件监听器)
+        销毁后 实际上 vm 实例还存在
+
+        beforeDestory() 函数中 vm 的监视器是 active ，但是已经不能使用了
+-->
+<body>
+    <h1 id="app">
+        {{ msg }}
+        <label>四个周期</label>
+        <menu>
+            <li>初始阶段</li>
+            <li>挂载阶段</li>
+            <li>更新阶段</li>
+            <li>销毁阶段</li>
+        </menu>
+
+        <label>八个钩子函数</label>
+        <p>钩子函数就是由Vue框架自行调用的函数</p>
+        <menu>
+            <li>初始阶段
+                <li>beforeCreate()</li>
+                <li>created()</li>
+            </li>
+
+            <li>
+                挂载阶段
+                <li>beforeMount()</li>
+                <li>mounted()</li>
+            </li>
+
+            <li>
+                更新阶段
+                <li>beforeUpdate()</li>
+                <li>updated()</li>
+            </li>
+
+            <li>
+                销毁阶段
+                <li>beforeDestory()</li>
+                <li>destoryed()</li>
+            </li>
+        </menu>
+    </h1>
+    <script>
+        const vm = new Vue({
+            el : '#app',
+            data : {
+                msg: "Vue 生命周期",
+
+            },
+            beforeCreate(){
+                // 这里的 before 是数据代理和检测前
+                alert("now Vue is coming");
+            },
+            created(){
+                // 数据代理 和 数据检测 加载完全
+                ;
+            }
+        });
+    </script>
+</body>
+</html>
