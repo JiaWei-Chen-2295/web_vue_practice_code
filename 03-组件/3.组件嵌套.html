@@ -7,14 +7,53 @@
     <title>嵌套组件</title>
     <script src="../js/vue.js"></script>
 </head>
+<!--
+
+  -->
 
 <body>
+    <div id="root"></div>
     <script>
-        const vm = new Vue({
-            el: '#app',
-            components: {
 
+        // 用于嵌套内层的组件
+        const x = {
+            template : 
+            `
+            <h2>
+                输入数字<input type="number" v-model="num">
+            </h2>
+            `,
+            data(){
+                return {
+                    num : 0
+                }
             }
+        }
+        
+        // 将 x 嵌套在 app 内部
+        // 注册 x 组件
+        const app = {
+            template : 
+            `
+            <div>
+            <h1>{{ msg }}</h1>
+            <x></x>
+            </div>
+            `,
+            data(){
+                return {
+                    msg : 'Hello'
+                }
+            },
+            components : {x}
+        };
+
+        const vm = new Vue({
+            el: '#root',
+            template :`
+            <app></app>
+            `,
+            components: {app}
         });
     </script>
 </body>

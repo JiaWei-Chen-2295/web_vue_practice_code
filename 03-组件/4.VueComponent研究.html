@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VueComponent研究</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!-- 
+    研究 VC VueComponent
+    1. this 指向问题
+
+-->
+<body>
+    <div id="app"></div>
+    <script>
+        // 给 Vue 实例原型对象添加属性
+        Vue.prototype.num = 20;
+
+        const vc = Vue.extend({
+            template : 
+            `
+            <h1>ahhh</h1>
+            `,
+            mounted(){
+                console.log('vc' , this);
+                // 下面这个 vc 是一个全新的VueComponent构造函数
+                // 在页面中使用组件对应标签时 Vue 实例化组件对象
+                // this 就是这个对象
+                // 只能说： vm 上有的 vc 上不一定有，vc 上有的 vm 上一定有。
+                console.log(this === vc); // false
+                // 为什么 vc 可以访问到 vm 原型对象属性
+                // 为了代码复用， vc 的原型对象是 vm
+                console.log("vc.num is :", this.num);
+            }
+        });
+        
+        const vm = new Vue({
+            template : `<vc></vc>`,
+            el : '#app',
+            data : {
+                
+            },
+            mounted(){
+            console.log('vm' , this);
+            },
+            components : {vc}
+        });
+
+       
+    </script>
+</body>
+</html>
