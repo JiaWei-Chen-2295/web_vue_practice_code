@@ -1,4 +1,4 @@
-# vue_pro_2
+# vue_practice01
 
 ## Project setup
 ```
