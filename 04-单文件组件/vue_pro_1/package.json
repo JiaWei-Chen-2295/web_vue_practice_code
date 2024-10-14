@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "pubsub": "^3.2.1",
+    "pubsub-js": "^1.8.0",
     "vue": "^2.6.14"
   },
   "devDependencies": {
@@ -40,5 +42,5 @@
     "last 2 versions",
     "not dead"
   ],
-  "requireConfigFile" : false
+  "requireConfigFile": false
 }
