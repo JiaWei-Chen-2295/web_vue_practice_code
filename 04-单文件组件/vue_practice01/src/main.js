@@ -5,4 +5,9 @@ Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
+  beforeCreate() {
+    // 将vue实例保存到原型上
+    // 全局事件总线
+    Vue.prototype.$bus = this
+  }
 }).$mount('#app')
